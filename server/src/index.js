@@ -12,7 +12,6 @@ function serve() {
     })
 
     app.get('/ohms/order/:trackingId', async (req, res) => {
-        console.log(req.params.trackingId);
         const ohm = await Utils.getOrderByTrackingId(req.params.trackingId);
         res.send(ohm);
     })

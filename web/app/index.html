@@ -25,7 +25,22 @@
                     <span ng-if="errorMessage">{{errorMessage}}</span>
                 </p>
                 <p>
-                    <span ng-if="orderDetails">{{orderDetails}}</span>
+                    <div ng-if="orderDetails">Tracking Id: </div>
+                    <div ng-if="orderDetails">{{orderDetails.data.trackingId}}</div>
+                    <div ng-if="orderDetails">Order Status: </div>
+                    <div ng-if="orderDetails">{{orderDetails.data.status}}</div>
+                    <div ng-if="orderDetails">Comments: </div>
+                    <div ng-if="orderDetails">{{orderDetails.data.comment}}</div>
+                    <div ng-if="orderDetails">Description: </div>
+                    <div ng-if="orderDetails">{{orderDetails.data.description}}</div>
+                    <div ng-if="orderDetails">Client: </div>
+                    <div ng-if="orderDetails">{{orderDetails.data.client}}</div>
+                    <ul>
+                        <li ng-repeat="value in orderDetails.data.history">
+                            <div>{{ value.state }}</div>
+                            <div>{{ value.at }}</div>
+                        </li>
+                    </ul>
                 </p>
             </form>
         </div>

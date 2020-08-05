@@ -6,7 +6,7 @@ angular
             .then((result) => {
                 console.log('Success', result);
                 this.errorMessage = '';
-                this.orderDetails = JSON.stringify(result)
+                this.orderDetails = result
             }, (error) => {
                 console.log('Errored', error);
                 this.errorMessage = 'Oops, this website is under construction, please come back later.';
