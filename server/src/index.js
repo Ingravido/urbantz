@@ -1,8 +1,8 @@
 const shortid = require('shortid')
-var express = require('express');
-var app = express();
+const express = require('express');
+const app = express();
 const bodyParser = require('body-parser')
-const Utils = require('./utils');
+const Utils = require('./services/db');
 app.use(bodyParser.json())
 
 function serve() {
@@ -13,6 +13,11 @@ function serve() {
 
     app.get('/ohms/order/:trackingId', async (req, res) => {
         const ohm = await Utils.getOrderByTrackingId(req.params.trackingId);
+        res.send(ohm);
+    })
+
+    app.get('/ohms/update-order/:trackingId', async (req, res) => {
+        const ohm = await Utils.progressOrder(req.params.trackingId);
         res.send(ohm);
     })
 
