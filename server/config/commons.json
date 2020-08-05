@@ -1,0 +1,4 @@
+{
+  "statuses": ["CREATED", "PREPARING", "READY", "IN_DELIVERY"],
+  "endStatuses": ["DELIVERED", "REFUSED"]
+}

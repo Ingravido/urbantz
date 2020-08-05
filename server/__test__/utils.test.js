@@ -1,4 +1,5 @@
-const utils = require('../src/utils');
+const utils = require('../src/services/db');
+const commons = require('../config/commons.json');
 
 describe('db return ohm', () => {
     test('returns Ohm object', () => {
@@ -7,8 +8,7 @@ describe('db return ohm', () => {
 
     test('has a valid history', async () => {
         const ohm = await utils.getOhmById('1');
-        const statuses = [ 'CREATED', 'PREPARING', 'READY', 'IN_DELIVERY','DELIVERED', 'REFUSED']
-        const isValidStatus = statuses.includes(ohm.history[0].state)
+        const isValidStatus = commons.statuses.includes(ohm.history[0].state)
         expect(isValidStatus).toBe(true);
     });
 })
