@@ -1,0 +1,7 @@
+{
+  "en": {
+    "SITE_UNDER_CONSTRUCTION": "Oops, this website is under construction, please come back later.",
+    "STATUSES": ["CREATED", "PREPARING", "READY", "IN_DELIVERY"],
+    "END_STATUSES": ["DELIVERED", "REFUSED"]
+  }
+}

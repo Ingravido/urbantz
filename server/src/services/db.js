@@ -2,7 +2,7 @@ const low = require('lowdb');
 const FileAsync = require('lowdb/adapters/FileAsync');
 const adapter = new FileAsync('db.json');
 const config = require('../../config/db.config.json');
-const commons = require('../../config/commons.json');
+const lang = require('../../lang/index');
 
 const db = (async () => {
   const _db = await low(adapter);
@@ -39,14 +39,14 @@ async function progressOrder(trackingId) {
 
     const actualStatus = orderToUpdateValues.status;
 
-    let actualStatusId = commons.statuses.indexOf(actualStatus)
+    let actualStatusId = lang.STATUSES.indexOf(actualStatus)
     const newStateId = ++actualStatusId;
 
-    if (newStateId > commons.statuses.length - 1) {
+    if (newStateId > lang.STATUSES.length - 1) {
         return orderToUpdateObj;
     }
 
-    const newState = commons.statuses[newStateId];
+    const newState = lang.STATUSES[newStateId];
     const actualHistory = orderToUpdateValues.history
 
     const timestamp = `${Math.trunc( new Date().getTime() / 10000 )}`;
