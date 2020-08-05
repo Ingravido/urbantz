@@ -35,7 +35,7 @@
                     <div ng-if="orderDetails">{{orderDetails.data.description}}</div>
                     <div ng-if="orderDetails">Client: </div>
                     <div ng-if="orderDetails">{{orderDetails.data.client}}</div>
-                    <ul>
+                    <ul ng-if="orderDetails">
                         <li ng-repeat="value in orderDetails.data.history">
                             <div>{{ value.state }}</div>
                             <div>{{ value.at }}</div>
