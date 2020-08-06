@@ -1,8 +1,8 @@
 # Ohm Store - Proposed Solution
 
-##Server
+## Server
 
-###Working endpoints:
+### Working endpoints:
 
  `/ohms/ohm-details/:id`
  
@@ -22,19 +22,19 @@
  
 `{ status: 'REFUSED', comment: 'Ohm resistor with different impedance }`
 
-###Modules created and refactors
+### Modules created and refactors
 
 - Lang module for internationalization.
 - Db logic extracted to service and improved handler initialization to a common variable to all methods.
 - Config files `/config` created to store common config
 
-##Web
+## Web
 
 - Created new orderFinalStatus controller to handle with new textarea to supply a refusal reason.
 - Added some more css entries to main.css
 - Some fixes on initial tracking controller (succes/error callbacks where inverted)
 
-##Improvements/nice to have:
+## Improvements/nice to have:
 - Cover with tests new logic related with order refusal text save.
 - More test to cover all the edge cases and 'ugly paths'
 - Nicer UI css styling (now looks like a skeleton)
