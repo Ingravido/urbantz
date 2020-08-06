@@ -26,37 +26,46 @@
                         <span ng-if="errorMessage">{{errorMessage}}</span>
                     </p>
                 </form>
-                <div ng-if="orderDetails">
-                    <div>Tracking Id: </div>
-                    <div>{{orderDetails.data.trackingId}}</div>
-                    <div>Order Status: </div>
-                    <div>{{orderDetails.data.status}}</div>
-                    <div>Comments: </div>
-                    <div>{{orderDetails.data.comment}}</div>
-                    <div>Description: </div>
-                    <div>{{orderDetails.data.description}}</div>
-                    <div>Client: </div>
-                    <div>{{orderDetails.data.client}}</div>
-                    <ul>
-                        <li ng-repeat="value in orderDetails.data.history">
-                            <div>{{ value.at }}</div>
-                            <div>{{ value.state }}</div>
-                        </li>
-                    </ul>
-                    </p>
-                </div>
-                <div ng-controller="orderFinalStatus">
-                    <div ng-if="orderDetails.data.status === 'IN_DELIVERY'">
-                        Please mark the status of the order
-                        <form ng-submit="sendData()">
-                            <input type="radio" ng-model="status" checked="checked"  value="DELIVERED">Delivered
-                            <input type="radio" ng-model="status" value="REFUSED">Refused
-                            <div ng-show="status === 'REFUSED'">
-                                <textarea rows="10" cols="50" ng-model="comment" name="input" >Write something here</textarea>
-                            </div>
-                            <button id="formBtnStatus" type="submit">Submit</button>
-                            <span ng-if="confirmMessage">{{confirmMessage}}</span>
-                        </form>
+                <div id="orderContainer">
+                    <div ng-if="orderDetails">
+                        <div>
+                            <label>Tracking Id: </label> {{orderDetails.data.trackingId}}
+                        </div>
+                        <div>
+                            <label>Order Status: </label> {{orderDetails.data.status}}
+                        </div>
+                        <div>
+                            <label>Comments: </label> {{orderDetails.data.comment}}
+                        </div>
+                        <div>
+                            <label>Description: </label> {{orderDetails.data.description}}
+                        </div>
+                        <div>
+                            <label>Client: </label> {{orderDetails.data.client}}
+                        </div>
+                        <div>
+                            <ul>
+                                <li ng-repeat="value in orderDetails.data.history">
+                                    <div>{{ value.state }} at {{ value.at }}</div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div ng-controller="orderFinalStatus">
+                        <div ng-if="orderDetails.data.status === 'IN_DELIVERY'">
+                            Please mark the status of the order
+                            <form ng-submit="sendData()">
+                                <div class="concludeOrderInputs">
+                                    <input type="radio" ng-model="status" checked="checked"  value="DELIVERED">Delivered
+                                    <input type="radio" ng-model="status" value="REFUSED">Refused
+                                    <div ng-show="status === 'REFUSED'">
+                                        <textarea rows="10" cols="50" ng-model="comment" name="input" >Write something here</textarea>
+                                    </div>
+                                </div>
+                                <button id="formBtnStatus" type="submit">Submit</button>
+                                <span ng-if="confirmMessage">{{confirmMessage}}</span>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>

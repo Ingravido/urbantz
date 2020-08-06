@@ -33,3 +33,18 @@ p {
     margin: auto;
     line-height: 2.0;
 }
+
+
+#orderContainer {
+    font-family: arial;
+    color: #202020;
+    padding: 10px;
+}
+
+.orderFieldValue {
+    display: inline;
+}
+
+.concludeOrderInputs {
+    width: 165px;
+}

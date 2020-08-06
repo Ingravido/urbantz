@@ -21,7 +21,6 @@ function serve() {
     })
 
     app.post('/ohms/conclude-order/:trackingId', async (req, res) => {
-        console.log(req.body);
         const ohm = await Utils.concludeOrder(req.params.trackingId, req.body);
         res.send(ohm);
     })

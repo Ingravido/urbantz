@@ -1,5 +1,5 @@
 const utils = require('../src/services/db');
-const lang = require('../lang/index');
+const lang = require('../src/components/multilanguage');
 
 describe('db return ohm', () => {
     test('returns Ohm object', () => {
