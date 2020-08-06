@@ -2,17 +2,23 @@ const low = require('lowdb');
 const FileAsync = require('lowdb/adapters/FileAsync');
 const adapter = new FileAsync('db.json');
 const config = require('../../config/db.config.json');
-const lang = require('../../lang/index');
+const lang = require('../components/multilanguage');
 
-const db = (async () => {
-  const _db = await low(adapter);
-  await _db.defaults(config).write();
-  return _db;
+let dbService;
+
+(async () => {
+    dbService = await initDB();
 })()
 
+async function initDB() {
+    const db = await low(adapter);
+    await db.defaults(config).write();
+
+    return db;
+}
+
 async function getOhmById(id) {
-    const _db = await db;
-    const ohm = _db.get('ohms')
+    const ohm = dbService.get('ohms')
         .find({ id })
         .value()
 
@@ -20,9 +26,24 @@ async function getOhmById(id) {
 }
 
 async function getOrderByTrackingId(trackingId) {
-    const _db = await db;
-    return _db.get('ohms')
+    return dbService.get('ohms')
         .find({trackingId});
+}
+
+function getNextStatus(actualStatus) {
+    let actualStatusId = lang.STATUSES.indexOf(actualStatus)
+    const newStateId = ++actualStatusId;
+    return newStateId;
+}
+
+function getUpdatedHistoryField(orderToUpdateValues, newState) {
+    const timestamp = `${Math.trunc(new Date().getTime() / 10000)}`;
+
+    orderToUpdateValues.history.push({
+        state: newState,
+        at: timestamp
+    });
+    return orderToUpdateValues.history;
 }
 
 async function progressOrder(trackingId) {
@@ -32,27 +53,19 @@ async function progressOrder(trackingId) {
         .value()
 
     const actualStatus = orderToUpdateValues.status;
-
-    let actualStatusId = lang.STATUSES.indexOf(actualStatus)
-    const newStateId = ++actualStatusId;
+    const newStateId = getNextStatus(actualStatus);
 
     if (newStateId > lang.STATUSES.length - 1) {
         return orderToUpdateObj;
     }
 
     const newState = lang.STATUSES[newStateId];
-    const actualHistory = orderToUpdateValues.history
 
-    const timestamp = `${Math.trunc( new Date().getTime() / 10000 )}`;
-
-    actualHistory.push({
-        state: newState,
-        at: timestamp
-    });
+    const updatedHistory = getUpdatedHistoryField(orderToUpdateValues, newState);
 
     const propertiesToUpdate = {
         status: newState,
-        history: actualHistory
+        history: updatedHistory
     };
 
     const ohm = orderToUpdateObj
@@ -62,11 +75,15 @@ async function progressOrder(trackingId) {
     return ohm;
 }
 
-async function concludeOrder(trackingId, propertiesToUpdate) {
+async function concludeOrder(trackingId, params) {
     const orderToUpdateObj = await getOrderByTrackingId(trackingId);
+    const updatedHistory = getUpdatedHistoryField(orderToUpdateObj.value(), params.status);
 
     return orderToUpdateObj
-        .assign(propertiesToUpdate)
+        .assign({
+            status: params.status,
+            history: updatedHistory
+        })
         .value()
 }
 
