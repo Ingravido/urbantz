@@ -21,18 +21,12 @@ async function getOhmById(id) {
 
 async function getOrderByTrackingId(trackingId) {
     const _db = await db;
-    const ohm = _db.get('ohms')
-        .find({ trackingId })
-        .value()
-
-    return ohm;
+    return _db.get('ohms')
+        .find({trackingId});
 }
 
 async function progressOrder(trackingId) {
-    const _db = await db;
-
-    const orderToUpdateObj = _db.get('ohms')
-        .find({ trackingId });
+    const orderToUpdateObj = await getOrderByTrackingId(trackingId);
 
     const orderToUpdateValues = orderToUpdateObj
         .value()
@@ -68,4 +62,12 @@ async function progressOrder(trackingId) {
     return ohm;
 }
 
-module.exports = { getOhmById, getOrderByTrackingId, progressOrder }
+async function concludeOrder(trackingId, propertiesToUpdate) {
+    const orderToUpdateObj = await getOrderByTrackingId(trackingId);
+
+    return orderToUpdateObj
+        .assign(propertiesToUpdate)
+        .value()
+}
+
+module.exports = { getOhmById, getOrderByTrackingId, progressOrder, concludeOrder }
